@@ -27,7 +27,6 @@ class AddOperation:
     """Операция сложения."""
 
     def execute(self, first_operand, second_operand):
-        """Выполнение операции сложения."""
         return first_operand + second_operand
 
 
@@ -35,7 +34,6 @@ class SubtractOperation:
     """Операция вычитания."""
 
     def execute(self, first_operand, second_operand):
-        """Выполнение операции вычитания."""
         return first_operand - second_operand
 
 
@@ -43,7 +41,6 @@ class MultiplyOperation:
     """Операция умножения."""
 
     def execute(self, first_operand, second_operand):
-        """Выполнение операции умножения."""
         return first_operand * second_operand
 
 
@@ -51,7 +48,6 @@ class DivideOperation:
     """Операция деления."""
 
     def execute(self, first_operand, second_operand):
-        """Выполнение операции деления."""
         if second_operand == 0:
             raise ZeroDivisionError("Деление на ноль")
         return first_operand / second_operand
@@ -155,7 +151,6 @@ def display_error(message):
 
 
 def main():
-    """Основная функция программы."""
     display_welcome_message()
     calculator = RPNCalculator()
 
