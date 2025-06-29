@@ -1,63 +1,133 @@
 class Stack:
-    """Реализация структуры данных стек."""
+    """
+    Класс, реализующий структуру данных стек.
+    """
 
     def __init__(self):
+        """
+        Инициализация пустого стека.
+        """
         self.__items = []
 
-    def push(self, item):
-        """Добавление элемента в стек."""
+    def push(self, item: float) -> None:
+        """
+        Добавление элемента в стек.
+
+        Args:
+            item: Элемент, добавляемый в стек.
+        """
         self.__items.append(item)
 
-    def pop(self):
-        """Извлечение элемента из стека."""
+    def pop(self) -> float:
+        """
+        Удаление и возврат верхнего элемента стека.
+
+        Return:
+            Верхний элемент стека.
+        """
         if self.is_empty():
             raise IndexError("Попытка извлечь элемент из пустого стека")
         return self.__items.pop()
 
-    def is_empty(self):
-        """Проверка стека на пустоту."""
+    def is_empty(self) -> bool:
+        """
+        Проверка, пуст ли стек.
+
+        Return:
+            True, если стек пуст, иначе False.
+        """
         return len(self.__items) == 0
 
-    def size(self):
-        """Получение количества элементов в стеке."""
+    def size(self) -> int:
+        """
+        Возвращает количество элементов в стеке.
+
+        Return:
+            Количество элементов.
+        """
         return len(self.__items)
 
 
 class AddOperation:
-    """Операция сложения."""
+    """Класс, реализующий операцию сложения"""
 
-    def execute(self, first_operand, second_operand):
+    def execute(self, first_operand: float, second_operand: float) -> float:
+        """
+        Выполняет сложение двух чисел.
+
+        Ards:
+            first_operand: Первое слагаемое.
+            second_operand: Второе слагаемое.
+        Return:
+            Сумма.
+        """
         return first_operand + second_operand
 
 
 class SubtractOperation:
-    """Операция вычитания."""
+    """Класс, реализующий операцию вычитания"""
 
-    def execute(self, first_operand, second_operand):
+    def execute(self, first_operand: float, second_operand: float) -> float:
+        """
+        Выполняет вычитание второго числа из первого.
+
+        Args:
+            first_operand: Уменьшаемое.
+            second_operand: Вычитаемое.
+        Return:
+            Разность.
+        """
         return first_operand - second_operand
 
 
 class MultiplyOperation:
-    """Операция умножения."""
+    """Класс, реализующий умножение"""
 
-    def execute(self, first_operand, second_operand):
+    def execute(self, first_operand: float, second_operand: float) -> float:
+        """
+        Выполняет умножение двух чисел.
+
+        Args:
+            first_operand: Первый множитель.
+            second_operand: Второй множитель.
+        Return:
+            Произведение.
+        """
         return first_operand * second_operand
 
 
 class DivideOperation:
-    """Операция деления."""
+    """Класс, реализующий операцию деления"""
 
-    def execute(self, first_operand, second_operand):
+    def execute(self, first_operand: float, second_operand: float) -> float:
+        """
+        Делит первое число на второе.
+
+        Args:
+            first_operand: Делимое.
+            second_operand: Делитель.
+        Return:
+            Частное.
+        """
         if second_operand == 0:
             raise ZeroDivisionError("Деление на ноль")
         return first_operand / second_operand
 
 
 class OperationFactory:
-    """Создание операций по символу."""
+    """
+    Класс, реализующий операции возвращающие объект соответствующей арифметической операции.
+    """
 
-    def create_operation(self, operator_symbol):
-        """Создание объекта операции по символу."""
+    def create_operation(self, operator_symbol: str):
+        """
+        Возвращает экземпляр соответствующей операции по символу.
+
+        Args:
+            operator_symbol: Символ операции ('+', '-', '*', '/').
+        Return:
+            Объект операции.
+        """
         operations = {
             '+': AddOperation(),
             '-': SubtractOperation(),
@@ -70,14 +140,26 @@ class OperationFactory:
 
 
 class RPNCalculator:
-    """Калькулятор обратной польской записи."""
+    """
+    Класс, реализующий калькулятор обратной польской записи (постфиксной записи).
+    """
 
     def __init__(self):
+        """
+        Инициализирует стек и фабрику операций.
+        """
         self.__stack = Stack()
         self.__operation_factory = OperationFactory()
 
-    def calculate(self, expression):
-        """Вычисление выражения в обратной польской записи."""
+    def calculate(self, expression: str) -> float:
+        """
+        Вычисляет значение выражения в обратной польской записи.
+
+        Args:   
+            expression: Строка с выражением (например: '3 4 +').
+        Return:
+            Результат вычисления.
+        """
         if not expression.strip():
             raise ValueError("Пустое выражение")
 
@@ -93,12 +175,17 @@ class RPNCalculator:
                 raise ValueError(f"Ошибка в токене '{token}': {str(error)}")
 
         if self.__stack.size() != 1:
-            raise ValueError("Некорректное выражение: после вычислений в стеке должно остаться ровно одно значение")
+            raise ValueError("Некорректное выражение: в стеке должно остаться одно значение")
 
         return self.__stack.pop()
 
-    def __process_operand(self, token):
-        """Обработка операнда с поддержкой вещественных положительных чисел."""
+    def __process_operand(self, token: str) -> None:
+        """
+        Обрабатывает операнд: преобразует в число и помещает в стек.
+
+        Args:
+            token: Токен операнда.
+        """
         try:
             number = float(token)
             if number < 0.0:
@@ -109,8 +196,13 @@ class RPNCalculator:
                 raise ValueError(f"Неизвестный оператор: {token}")
             raise ValueError("Некорректный формат числа")
 
-    def __perform_operation(self, operator_symbol):
-        """Выполнение арифметической операции."""
+    def __perform_operation(self, operator_symbol: str) -> None:
+        """
+        Выполняет арифметическую операцию на двух верхних элементах стека.
+
+        Args:
+            operator_symbol: Символ операции.
+        """
         if self.__stack.size() < 2:
             raise ValueError("Недостаточно операндов для выполнения операции")
 
@@ -126,31 +218,41 @@ class RPNCalculator:
             raise ValueError(f"Ошибка при выполнении операции: {str(error)}")
 
 
-def display_welcome_message():
-    """Отображение приветственного сообщения."""
+def display_welcome_message() -> None:
+    """
+    Выводит приветственное сообщение и инструкцию по использованию калькулятора.
+    """
     print("Калькулятор обратной польской записи")
     print("Введите выражение, например: '3.5 4 +'")
-    print("Числа должны быть положительными (> 0)")
+    print("Числа должны быть положительными (>= 0)")
     print("Доступные операции: +, -, *, /")
     print("Для выхода введите 'break'")
 
 
-def get_user_input():
-    """Получение ввода от пользователя."""
+def get_user_input() -> str:
+    """
+    Получает строку ввода от пользователя.
+
+    Return:
+        Строка с выражением.
+    """
     return input("\nВведите выражение: ").strip()
 
 
-def display_result(result):
-    """Отображение результата вычислений."""
+def display_result(result: float) -> None:
+    """Выводит результат вычисления."""
     print(f"Результат: {result:.2f}")
 
 
-def display_error(message):
-    """Отображение сообщения об ошибке."""
+def display_error(message: str) -> None:
+    """Выводит сообщение об ошибке."""
     print(f"Ошибка: {message}")
 
 
-def main():
+def main() -> None:
+    """
+    Основной цикл программы. Обрабатывает пользовательский ввод и вычисляет выражения.
+    """
     display_welcome_message()
     calculator = RPNCalculator()
 
