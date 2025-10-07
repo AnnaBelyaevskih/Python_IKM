@@ -20,9 +20,7 @@
 Структура проекта:
 - Класс Stack:
     * Реализация структуры данных «стек»
-- Классы операций (AddOperation, SubtractOperation, MultiplyOperation, DivideOperation):
-    * Инкапсуляция математических операций
-- Класс OperationFactory:
+- Класс MathOperations:
     * Создание объектов операций на основе символа (+, -, *, /)
 - Класс RPNCalculator:
     * Обработка выражений в RPN-формате
